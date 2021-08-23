@@ -3,7 +3,7 @@ package datos;
 import java.sql.*;
 
 public class Conexion {
-    private static final String URL = "jdbc:mysql://localhost:3306/usuarios?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+    private static final String URL = "jdbc:mysql://localhost:3306/test?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String USUARIO = "root";
     private static final String PASSWORD = "admin";
 

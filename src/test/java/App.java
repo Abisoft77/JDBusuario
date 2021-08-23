@@ -1,28 +1,35 @@
+import static datos.Conexion.*;
 import datos.UsuarioDAO;
+import java.sql.*;
+import java.util.*;
 import domain.Usuario;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class App {
 
     public static void main(String[] args) {
         List<Usuario> usuarios = new ArrayList<>(); //almacenara la lista de objetos
-        UsuarioDAO usuario = new UsuarioDAO();
+        Connection conn = null;
+        try {
+            conn = establecerConexion();
+            if (conn.getAutoCommit()) conn.setAutoCommit(false);
+            UsuarioDAO usuarioDAO = new UsuarioDAO(conn);
+            Usuario nuevoUsuario = new Usuario("gueva540","IpadPro77");
+            usuarioDAO.insertar(nuevoUsuario);
 
-        //Crear usuario
-        Usuario user = new Usuario(3);
+            Usuario actualizarUsuario = new Usuario(3,"abisai77","password");
+            usuarioDAO.actualizar(actualizarUsuario);
 
-        //Actualizar Usuario
-        //usuario.actualizar(user);
 
-        //eliminar usuario
-        usuario.eliminar(user);
+            conn.commit(); //hacemos commit
+        } catch (SQLException er) {
+            er.printStackTrace();
+            //agregando el bloque rollback
+            try {
+                conn.rollback();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
 
-        //usuario.insertar(user);
-
-        usuarios = usuario.obtenerDatos();
         usuarios.forEach(System.out::println);
-
     }
 }
